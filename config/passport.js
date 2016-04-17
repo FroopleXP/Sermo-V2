@@ -28,10 +28,12 @@ module.exports = function(passport) {
 	    				return done(null, user);
 	    			else {
 	    				var newUser = new User();
+
 	    				newUser.google.id = profile.id;
 	    				newUser.google.token = accessToken;
 	    				newUser.google.name = profile.displayName;
 	    				newUser.google.email = profile.emails[0].value;
+                        newUser.google.prof_image = profile.image.url;
 
 	    				newUser.save(function(err){
 	    					if(err)
