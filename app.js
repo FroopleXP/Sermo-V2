@@ -2,21 +2,43 @@
 var express = require("express"),
     app = express();
 
+var cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    passport = require('passport'),
+    flash = require('connect-flash');
+
 // Loading config files
-var config = require("./config/app-config.js");
+var config = require("./config/app-config.js"),
+    configDB = require('./config/database.js');
+
+require('./config/passport.js')(passport);
 
 // Getting data from config file
 var app_name = config.app.name,
     app_port = config.app.port;
 
-// Getting the MongoDB models
+// Configuring MongoDB
 var User = require('./app/models/user.js');
+mongoose.connect(configDB.url);
 
 // Startup message
 console.log(app_name + " is starting...");
 
 // Setting up Express
 app.set("view engine", "ejs");
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+    secret: config.sessions.token,
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 // Page routes
 app.get("/", function(req, res) {

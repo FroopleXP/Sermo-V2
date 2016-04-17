@@ -4,3 +4,5 @@ config/api-auth.js
 /config/api-auth.js
 config/database.js
 /config/database.js
+config/app-config.js
+/config/app-config.js
