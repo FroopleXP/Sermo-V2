@@ -9,6 +9,10 @@ var cookieParser = require('cookie-parser'),
     passport = require('passport'),
     flash = require('connect-flash');
 
+// SocketIO Dependencies
+var server = require('http').createServer(app),
+    io = require('socket.io').listen(server);
+
 // Loading config files
 var config = require("./config/app-config.js"),
     configDB = require('./config/database.js');
@@ -45,7 +49,11 @@ app.use(flash());
 
 // Page routes
 app.get("/", function(req, res) {
-    res.render("home", { title: app_name + " | Login", app_name: app_name });
+    if (!req.isAuthenticated()) {
+        res.render("home", { title: app_name + " | Login", app_name: app_name });
+    } else {
+        res.redirect("/profile");
+    }
 });
 
 // Profile
@@ -63,6 +71,14 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+// Socket IO
+io.on('connection', function(socket) {
+    console.log(socket + " has connected");
+    socket.on('disconnect', function() {
+        console.log(socket + " has disconnected");
+    });
+});
+
 // Function to check that the user is logged in
 function checkLogin(req, res, next) {
     if (req.isAuthenticated()) {
@@ -72,6 +88,6 @@ function checkLogin(req, res, next) {
 }
 
 // Starting the app
-app.listen(app_port, function() {
+server.listen(app_port, function() {
     console.log("Server started on port: " + app_port);
 });
