@@ -1,9 +1,9 @@
+<% include ./includes/scripts.js %>
 <html>
     <head>
-        <title></title>
+        <title><%= title %></title>
     </head>
     <body>
-        Welcome, <%= user.google.name %><br />
-        <img src="<%= user.google.prof_image %>">
+        <% include ./includes/header.ejs %>
     </body>
 </html>

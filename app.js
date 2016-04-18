@@ -30,6 +30,7 @@ console.log(app_name + " is starting...");
 
 // Setting up Express
 app.set("view engine", "ejs");
+app.use("/views", express.static(__dirname + '/views'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
@@ -44,12 +45,12 @@ app.use(flash());
 
 // Page routes
 app.get("/", function(req, res) {
-    res.render("home", { title: app_name + " | Home", app_name: app_name });
+    res.render("home", { title: app_name + " | Login", app_name: app_name });
 });
 
 // Profile
 app.get('/profile', checkLogin, function(req, res) {
-    res.render('profile', { user: req.user });
+    res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name });
 });
 
 // Google+ Login
@@ -67,7 +68,7 @@ function checkLogin(req, res, next) {
     if (req.isAuthenticated()) {
         return next(); // They are, carry on
     }
-    res.redirect('/login'); // They're not, redirect to login page
+    res.redirect('/'); // They're not, redirect to login page
 }
 
 // Starting the app

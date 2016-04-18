@@ -1,7 +1,7 @@
 {
   "name": "sermo-v2",
   "version": "2.0.1",
-  "description": "",
+  "description": "Sermo - A Instant Messaging Platform",
   "main": "app.js",
   "dependencies": {},
   "devDependencies": {},
