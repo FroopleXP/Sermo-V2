@@ -34,6 +34,7 @@ module.exports = function(passport) {
 	    				newUser.google.name = profile.displayName;
 	    				newUser.google.email = profile.emails[0].value;
 						newUser.google.prof_image = profile._json.image.url;
+						newUser.google.firstname = profile.name.givenName;
 
 	    				newUser.save(function(err){
 	    					if(err)

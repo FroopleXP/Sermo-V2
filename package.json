@@ -3,7 +3,9 @@
   "version": "2.0.1",
   "description": "Sermo - A Instant Messaging Platform",
   "main": "app.js",
-  "dependencies": {},
+  "dependencies": {
+    "socketio": "^1.0.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

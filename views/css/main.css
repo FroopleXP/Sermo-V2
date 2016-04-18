@@ -1,6 +1,6 @@
 .navbar-login
 {
-    width: 270px;
+    width: 260px;
     padding: 10px;
     padding-bottom: 0px;
 }
@@ -22,8 +22,26 @@ padding: 0px;
 overflow: hidden;
 }
 
-.icon-size
-{
-    height: 80px;
-    width: 80px;
+.icon-size {
+    margin: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+}
+
+.mrg_top {
+    margin-top: 100px !important;
+}
+
+.send_btn, .message_inp_box {
+    height: 58px;
+    outline: none !important;
+}
+
+.message_inp_box {
+    width: 80%;
+    padding: 8px;
+    resize: none;
+    border-radius: 3px;
+    font-size: 1em;
 }

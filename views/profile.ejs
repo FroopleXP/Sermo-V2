@@ -2,8 +2,49 @@
 <html>
     <head>
         <title><%= title %></title>
+        <script src="/views/js/profile.js"></script>
     </head>
     <body>
+
+        <!-- Header -->
         <% include ./includes/header.ejs %>
+
+        <div class="container mrg_top">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Users Online
+                        </div>
+                        <div class="panel-body">
+                            Users...
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Messages
+                        </div>
+                        <div class="panel-body">
+                            Messages...
+                        </div>
+                        <div class="panel-footer message_inp_container">
+                            <!-- <textarea class="message_inp_box form-control" placeholder="Hey, <%= user.google.firstname %> type a message..."></textarea>
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button> -->
+                            <form ID="message_form">
+                                <div class="input-group">
+                                    <textarea name="message" class="message_inp_box form-control" placeholder="Hey, <%= user.google.firstname %> type a message..."></textarea>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary send_btn" type="submit">Send</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>
