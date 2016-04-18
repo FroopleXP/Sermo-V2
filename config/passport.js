@@ -33,7 +33,7 @@ module.exports = function(passport) {
 	    				newUser.google.token = accessToken;
 	    				newUser.google.name = profile.displayName;
 	    				newUser.google.email = profile.emails[0].value;
-                        newUser.google.prof_image = profile.image.url;
+						newUser.google.prof_image = profile._json.image.url;
 
 	    				newUser.save(function(err){
 	    					if(err)

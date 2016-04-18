@@ -21,7 +21,9 @@ var app_name = config.app.name,
 
 // Configuring MongoDB
 var User = require('./app/models/user.js');
-mongoose.connect(configDB.url);
+mongoose.connect(configDB.url, function() {
+    console.log("Connected to MongoDB");
+});
 
 // Startup message
 console.log(app_name + " is starting...");
