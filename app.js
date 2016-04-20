@@ -3,10 +3,10 @@ var express = require("express"),
     app = express();
 
 var cookieParser = require('cookie-parser'),
-    session = require('express-session'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     passport = require('passport'),
+    session = require('express-session'),
     flash = require('connect-flash');
 
 // SocketIO Dependencies
@@ -38,9 +38,9 @@ app.use("/views", express.static(__dirname + '/views'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
-    secret: config.sessions.token,
-    saveUninitialized: true,
-    resave: true
+    secret: 'anystringoftext',
+	saveUninitialized: true,
+	resave: true
 }));
 
 app.use(passport.initialize());
@@ -73,9 +73,9 @@ app.get('/logout', function(req, res) {
 
 // Socket IO
 io.on('connection', function(socket) {
-    console.log(socket + " has connected");
+    console.log(socket.id + " has connected");
     socket.on('disconnect', function() {
-        console.log(socket + " has disconnected");
+        console.log(socket.id + " has disconnected");
     });
 });
 

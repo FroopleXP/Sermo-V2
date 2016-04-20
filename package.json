@@ -4,7 +4,8 @@
   "description": "Sermo - A Instant Messaging Platform",
   "main": "app.js",
   "dependencies": {
-    "socketio": "^1.0.0"
+    "socketio": "^1.0.0",
+    "socketio-jwt": "^4.3.4"
   },
   "devDependencies": {},
   "scripts": {
