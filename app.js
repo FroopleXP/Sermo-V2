@@ -5,8 +5,10 @@ var express = require("express"),
 var cookieParser = require('cookie-parser'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    passportSocketIo = require('passport.socketio'),
     passport = require('passport'),
     session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     flash = require('connect-flash');
 
 // SocketIO Dependencies
@@ -29,6 +31,10 @@ mongoose.connect(configDB.url, function() {
     console.log("Connected to MongoDB");
 });
 
+var MongoStoreIns = new MongoStore({
+    mongooseConnection: mongoose.connection
+});
+
 // Startup message
 console.log(app_name + " is starting...");
 
@@ -38,7 +44,8 @@ app.use("/views", express.static(__dirname + '/views'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
-    secret: 'anystringoftext',
+    store: MongoStoreIns,
+    secret: config.sessions.token,
 	saveUninitialized: true,
 	resave: true
 }));
@@ -71,15 +78,31 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    secret: config.sessions.token,
+    store: MongoStoreIns,
+    success: onAuthorizeSuccess,  // *optional* callback on success
+    fail: onAuthorizeFail     // *optional* callback on fail/error
+}));
+
 // Socket IO
-io.on('connection', function(socket) {
-    console.log(socket.id + " has connected");
-    socket.on('disconnect', function() {
-        console.log(socket.id + " has disconnected");
-    });
+io.sockets.on('connection', function(socket) {
+  console.log(socket.request.user);
 });
 
 // Function to check that the user is logged in
+function onAuthorizeSuccess(data, accept){
+  console.log('successful connection to socket.io');
+  accept(); //Let the user through
+}
+
+function onAuthorizeFail(data, message, error, accept){
+  if(error) accept(new Error(message));
+  console.log('failed connection to socket.io:', message);
+  accept(null, false);
+}
+
 function checkLogin(req, res, next) {
     if (req.isAuthenticated()) {
         return next(); // They are, carry on
