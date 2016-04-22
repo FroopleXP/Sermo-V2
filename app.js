@@ -101,6 +101,15 @@ io.on('connection', function(socket) {
         socket: socket.id
     }
 
+    var welcome_object = {
+        message: "Welcome, " + socket.request.user.google.name + ". How are you today?",
+        sender: "Sermo Bot",
+        sender_pic: "http://avatarbox.net/avatars/img24/robot_walking_avatar_picture_21288.gif"
+    }
+
+    // Welcoming the new user
+    socket.emit('welcome_message', welcome_object);
+
     // Altering the other users
     socket.broadcast.emit('new_user', connected_users[socket.request.user.google.id]);
 

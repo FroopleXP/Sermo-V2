@@ -22,6 +22,10 @@ padding: 0px;
 overflow: hidden;
 }
 
+hr {
+    margin-top: 15px;
+}
+
 .icon-size {
     margin: 10px;
     height: 50px;
@@ -60,4 +64,5 @@ overflow: hidden;
     resize: none;
     border-radius: 3px;
     font-size: 1em;
+    margin-bottom: -15px;
 }

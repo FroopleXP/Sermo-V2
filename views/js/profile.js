@@ -53,11 +53,18 @@ $(document).ready(function() {
     // New message
     socket.on('new_message', function(data) {
 
+        // Auto scrolling the message box
         message_box.animate({"scrollTop": message_box[0].scrollHeight}, "slow");
 
         // Render message
         render_message(data);
 
+    });
+
+    // Welcome message
+    socket.on('welcome_message', function(data) {
+        // Render message
+        render_message(data);
     });
 
     // Function used to render messages to the page
@@ -67,13 +74,14 @@ $(document).ready(function() {
         // Preparing the message template
         message_to_append += '<div class="media">';
         message_to_append += '<div class="media-left">';
-        message_to_append += '<img class="media-object img-thumbnail" src="' + data.sender_pic + '">';
+        message_to_append += '<img class="media-object img-thumbnail" height="60px" width="60px" src="' + data.sender_pic + '">';
         message_to_append += '</div>';
         message_to_append += '<div class="media-body">';
         message_to_append += '<h4 class="media-heading"><a target="_blank" href="' + data.sender_pic + '">' + data.sender + '</a></h5>';
         message_to_append += data.message;
         message_to_append += '</div>';
         message_to_append += '</div>';
+        message_to_append += '<hr />';
         message_box.append(message_to_append);
     }
 
