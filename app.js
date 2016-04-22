@@ -9,7 +9,8 @@ var cookieParser = require('cookie-parser'),
     passport = require('passport'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
-    flash = require('connect-flash');
+    flash = require('connect-flash'),
+    xssFilters = require('xss-filters');
 
 // SocketIO Dependencies
 var server = require('http').createServer(app),
@@ -108,7 +109,18 @@ io.on('connection', function(socket) {
 
     // New message
     socket.on('new_message', function(message) {
-        socket.broadcast.emit('new_message', message);
+
+        // Cleaning the message
+        var clean_message = xssFilters.inHTMLData(message),
+            message_data = {
+                message: clean_message,
+                sender: socket.request.user.google.name,
+                sender_pic: socket.request.user.google.prof_image
+            }
+
+        // Sending the message along with other data to users
+        io.sockets.emit('new_message', message_data);
+
     });
 
     // Listening for a disconnect

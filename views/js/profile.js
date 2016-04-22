@@ -1,17 +1,19 @@
 $(document).ready(function() {
 
     // Variables
-    var msg_form = $("#message_form"),
+    var msg_inp = $("#message_text"),
         user_table = $("#user_table"),
+        message_box = $("#message_box"),
         socket = io.connect('http://localhost:1337');
 
-    msg_form.on('submit', function() {
-        // Getting message from form
-        var data = msg_form.serializeArray(),
-            message = data[0].value;
-        // Sending the message
-        socket.emit('new_message', message);
-        return false; // Stopping the form from submitting
+    // Listening for send key
+    msg_inp.keyup(function(e) {
+        if (e.keyCode === 13 && !e.ctrlKey) {
+            var message = msg_inp.val();
+            socket.emit('new_message', message);
+            msg_inp.val('');
+        }
+        return true;
     });
 
     // New user list
@@ -50,7 +52,27 @@ $(document).ready(function() {
 
     // New message
     socket.on('new_message', function(data) {
-        console.log(data);
+
+        // Render message
+        render_message(data);
+
     });
+
+    // Function used to render messages to the page
+    function render_message(data) {
+        // Getting the new message
+        var message_to_append = "";
+        // Preparing the message template
+        message_to_append += '<div class="media">';
+        message_to_append += '<div class="media-left">';
+        message_to_append += '<img class="media-object img-thumbnail" src="' + data.sender_pic + '">';
+        message_to_append += '</div>';
+        message_to_append += '<div class="media-body">';
+        message_to_append += '<h4 class="media-heading"><a target="_blank" href="' + data.sender_pic + '">' + data.sender + '</a></h5>';
+        message_to_append += data.message;
+        message_to_append += '</div>';
+        message_to_append += '</div>';
+        message_box.append(message_to_append);
+    }
 
 });

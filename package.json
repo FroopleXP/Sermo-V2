@@ -17,7 +17,8 @@
     "passport.socketio": "^3.6.1",
     "socket.io": "^1.4.5",
     "socketio": "^1.0.0",
-    "socketio-jwt": "^4.3.4"
+    "socketio-jwt": "^4.3.4",
+    "xss-filters": "^1.2.6"
   },
   "devDependencies": {},
   "scripts": {
