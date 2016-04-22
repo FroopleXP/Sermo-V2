@@ -53,6 +53,8 @@ $(document).ready(function() {
     // New message
     socket.on('new_message', function(data) {
 
+        message_box.animate({"scrollTop": message_box[0].scrollHeight}, "slow");
+
         // Render message
         render_message(data);
 
