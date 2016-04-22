@@ -78,31 +78,58 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+// Socket IO middleware to authenticate the user
 io.use(passportSocketIo.authorize({
     cookieParser: cookieParser,
     secret: config.sessions.token,
     store: MongoStoreIns,
-    success: onAuthorizeSuccess,  // *optional* callback on success
-    fail: onAuthorizeFail     // *optional* callback on fail/error
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail
 }));
 
 // Socket IO
-io.sockets.on('connection', function(socket) {
-  console.log(socket.request.user);
+var connected_users = {}; // Object to store all of the connected users
+
+io.on('connection', function(socket) {
+
+    // Adding the user to the object
+    connected_users[socket.request.user.google.id] = {
+        id: socket.request.user.google.id,
+        name: socket.request.user.google.name,
+        profile_pic: socket.request.user.google.prof_image,
+        socket: socket.id
+    }
+
+    // Altering the other users
+    socket.broadcast.emit('new_user', connected_users[socket.request.user.google.id]);
+
+    // Sending the new user list to the new user
+    socket.emit('user_list', connected_users);
+
+    // New message
+    socket.on('new_message', function(message) {
+        socket.broadcast.emit('new_message', message);
+    });
+
+    // Listening for a disconnect
+    socket.on('disconnect', function() {
+        socket.broadcast.emit('lost_user', socket.request.user.google.id);
+        delete connected_users[socket.request.user.google.id]; // Deleting the user from the object
+    });
+
 });
 
-// Function to check that the user is logged in
 function onAuthorizeSuccess(data, accept){
-  console.log('successful connection to socket.io');
-  accept(); //Let the user through
+    accept(); //Let the user through
 }
 
 function onAuthorizeFail(data, message, error, accept){
-  if(error) accept(new Error(message));
-  console.log('failed connection to socket.io:', message);
-  accept(null, false);
+    if (error) accept (new Error(message));
+    console.log('failed connection to socket.io:', message);
+    accept(null, false);
 }
 
+// Function to check that the user is logged in
 function checkLogin(req, res, next) {
     if (req.isAuthenticated()) {
         return next(); // They are, carry on

@@ -29,6 +29,11 @@ overflow: hidden;
     border-radius: 100%;
 }
 
+.no-padding {
+    padding: 0px !important;
+    height: auto;
+}
+
 .mrg_top {
     margin-top: 100px !important;
 }
