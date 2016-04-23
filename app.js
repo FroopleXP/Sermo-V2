@@ -110,7 +110,7 @@ io.on('connection', function(socket) {
 
     // Preparing the welcome object for the newly connected user
     var welcome_object = {
-        message: "Welcome, " + socket.request.user.google.name + ". How are you today?",
+        message: "Welcome, " + socket.request.user.google.name + ". You are connected to the Sermo network.",
         sender: "Sermo Bot",
         sender_pic: "./views/img/serm_bot.gif"
     }
