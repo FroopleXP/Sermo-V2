@@ -34,6 +34,8 @@ $(document).ready(function() {
     // New user has joined the chat
     socket.on('new_user', function(data) {
 
+        console.log(data);
+
         // Adding the new user to the list
         user_table.prepend("<li class='list-group-item " + data.id + "'><img src='" + data.profile_pic + "' class='img-circle' height='30px' width='30px' style='margin-right: 10px;'>" + data.name + "</li>");
 

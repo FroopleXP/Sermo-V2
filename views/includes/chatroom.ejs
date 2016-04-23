@@ -1,0 +1,48 @@
+<% include ./scripts.js %>
+<html>
+    <head>
+        <title><%= title %></title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/views/js/profile.js"></script>
+    </head>
+    <body>
+
+        <!-- Header -->
+        <% include ./header.ejs %>
+
+        <div class="container mrg_top">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Users Online
+                        </div>
+                        <ul class="list-group" id="user_table"></ul>
+                    </div>
+                    <center><small>WRITTEN &amp; DEVELOPED BY: <a target="_blank" href="https://www.twitter.com/4v3ng3dfoREVer">CONNOR EDWARDS</a></small></center>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Messages
+                        </div>
+
+                        <div id="message_box">
+                        </div>
+
+                        <div class="panel-footer message_inp_container">
+                            <!-- <textarea class="message_inp_box form-control" placeholder="Hey, <%= user.google.firstname %> type a message..."></textarea>
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button> -->
+                            <form>
+                                <div class="form-group">
+                                    <textarea id="message_text" class="message_inp_box form-control" placeholder="Hey, <%= user.google.firstname %> type a message..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<% include ./scripts.js %>
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div class="container mrg_top">
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <img src="./views/img/serm_bot.gif">
+                        <h2>Oh, hi <%= user.google.firstname %>. You're here again...</h2>
+                        <h4>Please close other tabs that have Sermo open.</h4>
+                        <a href="/profile"><button class="btn btn-primary">Try again?</button></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

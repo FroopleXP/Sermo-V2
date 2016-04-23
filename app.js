@@ -66,7 +66,12 @@ app.get("/", function(req, res) {
 
 // Profile
 app.get('/profile', checkLogin, function(req, res) {
-    res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name });
+    // Checking whether they're logged in else where
+    if (connected_users[req.user.google.id] == undefined) {
+        res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name, auth: true });
+    } else if (connected_users[req.user.google.id] !== undefined) {
+        res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name, auth: false });
+    }
 });
 
 // Google+ Login
@@ -93,7 +98,6 @@ var connected_users = {}; // Object to store all of the connected users
 
 io.on('connection', function(socket) {
 
-    // Adding the user to the object
     connected_users[socket.request.user.google.id] = {
         id: socket.request.user.google.id,
         name: socket.request.user.google.name,
@@ -101,17 +105,18 @@ io.on('connection', function(socket) {
         socket: socket.id
     }
 
+    // Altering the other users
+    socket.broadcast.emit('new_user', connected_users[socket.request.user.google.id]);
+
+    // Preparing the welcome object for the newly connected user
     var welcome_object = {
         message: "Welcome, " + socket.request.user.google.name + ". How are you today?",
         sender: "Sermo Bot",
-        sender_pic: "http://avatarbox.net/avatars/img24/robot_walking_avatar_picture_21288.gif"
+        sender_pic: "./views/img/serm_bot.gif"
     }
 
     // Welcoming the new user
     socket.emit('welcome_message', welcome_object);
-
-    // Altering the other users
-    socket.broadcast.emit('new_user', connected_users[socket.request.user.google.id]);
 
     // Sending the new user list to the new user
     socket.emit('user_list', connected_users);
@@ -134,16 +139,18 @@ io.on('connection', function(socket) {
 
     // Listening for a disconnect
     socket.on('disconnect', function() {
-        socket.broadcast.emit('lost_user', socket.request.user.google.id);
+        socket.broadcast.emit('lost_user', socket.request.user.google.id); // Telling the others
         delete connected_users[socket.request.user.google.id]; // Deleting the user from the object
     });
 
 });
 
+// If the SocketIO Auth was successfull
 function onAuthorizeSuccess(data, accept){
     accept(); //Let the user through
 }
 
+// If SocketIO Auth failed!
 function onAuthorizeFail(data, message, error, accept){
     if (error) accept (new Error(message));
     console.log('failed connection to socket.io:', message);
