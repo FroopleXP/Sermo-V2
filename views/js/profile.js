@@ -6,7 +6,7 @@ $(document).ready(function() {
         message_box = $("#message_box"),
         user_id = $("#user_id").val(),
         socket_url = $("#socket_url").val(),
-        socket = io.connect({ secure: true });
+        socket = io.connect(socket_url, { secure: true });
 
     // console.log(socket.connected);
 
