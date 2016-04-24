@@ -58,7 +58,7 @@ app.use(flash());
 // Page routes
 app.get("/", function(req, res) {
     if (!req.isAuthenticated()) {
-        res.render("home", { title: app_name + " | Login", app_name: app_name });
+        res.render("home", { title: app_name + " | Login", app_name: app_name, app: config.app });
     } else {
         res.redirect("/profile");
     }
@@ -68,9 +68,9 @@ app.get("/", function(req, res) {
 app.get('/profile', checkLogin, function(req, res) {
     // Checking whether they're logged in else where
     if (connected_users[req.user.google.id] == undefined) {
-        res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name, auth: true });
+        res.render('profile', { user: req.user, title: app_name + " | Home", app: config.app, auth: true });
     } else if (connected_users[req.user.google.id] !== undefined) {
-        res.render('profile', { user: req.user, title: app_name + " | Home", app_name: app_name, auth: false });
+        res.render('profile', { user: req.user, title: app_name + " | Home", app: config.app, auth: false });
     }
 });
 
@@ -123,7 +123,6 @@ io.on('connection', function(socket) {
 
     // New message
     socket.on('new_message', function(message) {
-
         // Cleaning the message
         var clean_message = xssFilters.inHTMLData(message),
             message_data = {
@@ -132,10 +131,8 @@ io.on('connection', function(socket) {
                 sender_pic: socket.request.user.google.prof_image,
                 sender_id: socket.request.user.google.id
             }
-
         // Sending the message along with other data to users
-        socket.broadcast.emit('new_message', message_data);
-
+        io.sockets.emit('new_message', message_data);
     });
 
     // Listening for a disconnect
