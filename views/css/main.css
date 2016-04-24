@@ -52,7 +52,7 @@ hr {
     padding: 15px;
     overflow-y: auto;
     height: 400px;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .media-heading {
@@ -111,6 +111,8 @@ hr {
         padding: 15px;
         overflow-y: auto;
         height: calc(100% - 125px);
+        width: 100%;
+        word-break: break-word;
     }
 }
 
