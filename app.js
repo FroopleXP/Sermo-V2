@@ -135,7 +135,6 @@ io.on('connection', function(socket) {
 
         // Sending the message along with other data to users
         socket.broadcast.emit('new_message', message_data);
-        socket.emit('own_message', message_data);
 
     });
 
