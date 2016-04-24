@@ -5,11 +5,8 @@ $(document).ready(function() {
         user_table = $("#user_table"),
         message_box = $("#message_box"),
         user_id = $("#user_id").val(),
-<<<<<<< HEAD
-        socket = io.connect('http://sermochat.tk');
-=======
         socket = io.connect('https://localhost:1337', {secure: true});
->>>>>>> 0f9a9461fcd86c72bfd381766aa8f05730422a2b
+
 
     // Message Queue, used to store message notifications when the window is not active
     var message_queue = {};
