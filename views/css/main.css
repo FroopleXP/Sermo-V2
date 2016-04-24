@@ -12,6 +12,7 @@
     padding-top: 0px;
 
 }
+
 .navbar-footer
 {
     background-color:#DDD;
@@ -65,4 +66,54 @@ hr {
     border-radius: 3px;
     font-size: 1em;
     margin-bottom: -15px;
+}
+
+#overview {
+    background-image: url("/views/img/bg_tile.png");
+    margin-top: 50px;
+    padding-top: 80px;
+    padding-bottom: 120px;
+}
+
+/*==========  Mobile First Method  ==========*/
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    body {
+        background-image: url("/views/img/bg_tile.png");
+    }
+    .mrg_top {
+        margin-top: 0px !important;
+    }
+    .container {
+        width: 100% !important;
+    }
+    .panel-fullscreen {
+        display: block;
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        overflow: auto;
+        border-radius: 0px;
+    }
+    #message_box {
+        padding: 15px;
+        overflow-y: auto;
+        height: calc(100% - 125px);
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
 }
