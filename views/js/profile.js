@@ -5,7 +5,8 @@ $(document).ready(function() {
         user_table = $("#user_table"),
         message_box = $("#message_box"),
         user_id = $("#user_id").val(),
-        socket = io.connect('https://localhost:1337', {secure: true});
+        socket_url = $("#socket_url").val(),
+        socket = io.connect(socket_url, {secure: true});
 
 
     // Message Queue, used to store message notifications when the window is not active

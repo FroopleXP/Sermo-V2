@@ -12,6 +12,7 @@
 
         <!-- Hidden box to store the User's ID -->
         <input type="hidden" value="<%= user.google.id %>" id="user_id">
+        <input type="hidden" value="<%= app.url %>" id="socket_url">
 
         <audio id="chatAudio"><!-- Audio for the notification -->
             <source src="./views/sounds/noti.ogg" type="audio/ogg">
