@@ -52,6 +52,7 @@ hr {
     padding: 15px;
     overflow-y: auto;
     height: 400px;
+    word-wrap: break-word;
 }
 
 .media-heading {
