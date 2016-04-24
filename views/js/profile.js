@@ -7,6 +7,14 @@ $(document).ready(function() {
         user_id = $("#user_id").val(),
         socket = io.connect('http://sermochat.tk');
 
+    // Message Queue, used to store message notifications when the window is not active
+    var message_queue = {};
+
+    // Listening for when the page is re-activated
+    // $(window).focus(function() {
+    //     document.title = "Sermo";
+    // });
+
     // Listening for send key
     msg_inp.keyup(function(e) {
         if (e.keyCode === 13 && !e.ctrlKey) {
@@ -48,8 +56,9 @@ $(document).ready(function() {
         if (data.sender_id === user_id) { // It's their own message
             render_message(data);
         } else if (data.sender_id !== user_id) { // It's someone else's messages
-            $('#chatAudio')[0].play();
             render_message(data); // Playing the notification tone
+            // Checking if the window is active
+            $('#chatAudio')[0].play();
         }
         // Auto scrolling the message box
         message_box.animate({"scrollTop": message_box[0].scrollHeight}, "slow");
