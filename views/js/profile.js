@@ -6,8 +6,22 @@ $(document).ready(function() {
         message_box = $("#message_box"),
         user_id = $("#user_id").val(),
         socket_url = $("#socket_url").val(),
-        socket = io.connect(socket_url, {secure: true});
+        socket = io.connect({ secure: true });
 
+    // console.log(socket.connected);
+
+    socket.on('connect', function() {
+        console.log("Hello");
+    });
+
+    socket.on('error', function(err) {
+        var not_auth = confirm("You are not authorised to access this page. Please login again...");
+        if (not_auth == true) {
+            window.location.replace("/");
+        } else {
+            window.location.replace("/");
+        }
+    });
 
     // Message Queue, used to store message notifications when the window is not active
     var message_queue = {};

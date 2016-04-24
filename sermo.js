@@ -150,9 +150,8 @@ function onAuthorizeSuccess(data, accept){
 
 // If SocketIO Auth failed!
 function onAuthorizeFail(data, message, error, accept){
-    if (error) accept (new Error(message));
-    console.log('failed connection to socket.io:', message);
-    accept(null, false);
+  // send the (not-fatal) error-message to the client and deny the connection
+  return accept(new Error(message));
 }
 
 // Function to check that the user is logged in
