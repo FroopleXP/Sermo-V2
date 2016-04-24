@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser'),
     passportSocketIo = require('passport.socketio'),
     passport = require('passport'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo/es5')(session),
+    MongoStore = require('connect-mongo')(session),
     flash = require('connect-flash'),
     xssFilters = require('xss-filters');
 
