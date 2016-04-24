@@ -5,7 +5,7 @@ $(document).ready(function() {
         user_table = $("#user_table"),
         message_box = $("#message_box"),
         user_id = $("#user_id").val(),
-        socket = io.connect('http://localhost:1337');
+        socket = io.connect('http://sermochat.tk');
 
     // Listening for send key
     msg_inp.keyup(function(e) {
