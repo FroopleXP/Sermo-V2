@@ -123,16 +123,20 @@ io.on('connection', function(socket) {
 
     // New message
     socket.on('new_message', function(message) {
-        // Cleaning the message
-        var clean_message = xssFilters.inHTMLData(message),
-            message_data = {
-                message: clean_message,
-                sender: socket.request.user.google.name,
-                sender_pic: socket.request.user.google.prof_image,
-                sender_id: socket.request.user.google.id
-            }
-        // Sending the message along with other data to users
-        io.sockets.emit('new_message', message_data);
+        // Checking message length
+        var n_ws_msg = message.trim();
+        if (n_ws_msg.length > 0) {
+            // Cleaning the message
+            var clean_message = xssFilters.inHTMLData(message),
+                message_data = {
+                    message: clean_message,
+                    sender: socket.request.user.google.name,
+                    sender_pic: socket.request.user.google.prof_image,
+                    sender_id: socket.request.user.google.id
+                }
+            // Sending the message along with other data to users
+            io.sockets.emit('new_message', message_data);
+        }
     });
 
     // Listening for a disconnect
