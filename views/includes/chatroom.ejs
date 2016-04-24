@@ -10,6 +10,15 @@
         <!-- Header -->
         <% include ./header.ejs %>
 
+        <!-- Hidden box to store the User's ID -->
+        <input type="hidden" value="<%= user.google.id %>" id="user_id">
+
+        <audio id="chatAudio"><!-- Audio for the notification -->
+            <source src="./views/sounds/noti.ogg" type="audio/ogg">
+            <source src="./views/sounds/noti.mp3" type="audio/mpeg">
+            <source src="./views/sounds/noti.wav" type="audio/wav">
+        </audio>
+
         <div class="container mrg_top">
             <div class="row">
                 <div class="col-md-4">

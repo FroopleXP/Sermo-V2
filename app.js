@@ -129,11 +129,13 @@ io.on('connection', function(socket) {
             message_data = {
                 message: clean_message,
                 sender: socket.request.user.google.name,
-                sender_pic: socket.request.user.google.prof_image
+                sender_pic: socket.request.user.google.prof_image,
+                sender_id: socket.request.user.google.id
             }
 
         // Sending the message along with other data to users
-        io.sockets.emit('new_message', message_data);
+        socket.broadcast.emit('new_message', message_data);
+        socket.emit('own_message', message_data);
 
     });
 

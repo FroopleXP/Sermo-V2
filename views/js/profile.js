@@ -4,6 +4,7 @@ $(document).ready(function() {
     var msg_inp = $("#message_text"),
         user_table = $("#user_table"),
         message_box = $("#message_box"),
+        user_id = $("#user_id").val(),
         socket = io.connect('http://localhost:1337');
 
     // Listening for send key
@@ -55,11 +56,16 @@ $(document).ready(function() {
     // New message
     socket.on('new_message', function(data) {
 
+        // Checking who the sender of the message is
+        if (data.sender_id === user_id) { // It's their own message
+            render_message(data);
+        } else if (data.sender_id !== user_id) { // It's someone else's messages
+            $('#chatAudio')[0].play();
+            render_message(data); // Playing the notification tone
+        }
+
         // Auto scrolling the message box
         message_box.animate({"scrollTop": message_box[0].scrollHeight}, "slow");
-
-        // Render message
-        render_message(data);
 
     });
 
@@ -83,7 +89,7 @@ $(document).ready(function() {
         message_to_append += data.message;
         message_to_append += '</div>';
         message_to_append += '</div>';
-        message_to_append += '<hr />';
+        // message_to_append += '<hr />';
         message_box.append(message_to_append);
     }
 
